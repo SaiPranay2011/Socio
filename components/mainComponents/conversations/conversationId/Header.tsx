@@ -1,0 +1,73 @@
+"use client";
+
+import useOtherUser from "@/hooks/useOtherUser";
+import { Conversation, User } from "@prisma/client";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
+import ThemeSwitch from "../../themeSwitcher";
+import useActiveList from "@/hooks/useActiveList";
+import Avatar from "@/components/mainComponents/sideBar/avatar";
+import ProfileDrawer from "./profileDrawer";
+import AvatarGroup from "@/components/reusableComponents/avatarGroup";
+
+interface HeaderProps {
+  conversation: Conversation & {
+    users: User[];
+  };
+}
+const ConversationHeader: React.FC<HeaderProps> = ({ conversation }) => {
+  const otherUser = useOtherUser(conversation);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { members } = useActiveList();
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
+
+  const statusText = useMemo(() => {
+    if (conversation.isGroup) {
+      return `${conversation.users.length} members`;
+    }
+
+    return isActive ? "Active" : "Offline";
+  }, [conversation,isActive]);
+  return (
+    <>
+      <ProfileDrawer
+        data={conversation}
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
+      <div className="bg-white dark:bg-gray-800 w-full flex border-b-[1px] dark:border-b-gray-700 sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
+        <div className="flex gap-3 items-center">
+          <Link
+            className="lg:hidden block text-neutral-800 dark:text-gray-50 hover:text-neutral-900 dark:hover:text-gray-300 transition cursor-pointer"
+            href="/conversations"
+          >
+            <HiChevronLeft size={25} />
+          </Link>
+          {conversation.isGroup ? (
+            <AvatarGroup users={conversation.users} />
+          ) : (
+            <Avatar user={otherUser} />
+          )}
+          <div className="flex flex-col">
+            <div className="text-neutral-900 dark:text-gray-50">
+              {conversation.name || otherUser.name}
+            </div>
+            <div className="text-sm font-light text-neutral-500 dark:text-gray-200">
+              {statusText}
+            </div>
+          </div>
+        </div>
+        <ThemeSwitch />
+        <HiEllipsisHorizontal
+          size={32}
+          onClick={() => setDrawerOpen(true)}
+          className="text-neutral-800 dark:text-gray-50 hover:text-neutral-900 dark:hover:text-gray-300 cursor-pointer"
+        />
+      </div>
+    </>
+  );
+};
+
+export default ConversationHeader;
