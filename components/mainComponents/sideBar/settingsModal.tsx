@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import ThemeSwitch from "../themeSwitcher";
+import { useTheme } from "next-themes";
 
 interface SettingModalProps {
   isOpen?: boolean;
@@ -27,6 +29,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
 
   const {
     register,
@@ -67,11 +70,11 @@ const SettingModal: React.FC<SettingModalProps> = ({
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-              Profile
+              Settings
             </h2>
             <div className="flex justify-between items-center">
-              <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
-                Edit your public information
+              <p className=" text-sm leading-6 text-gray-600 dark:text-gray-300">
+                Click on edit to change theme and personal information
               </p>
               <div onClick={() => setEditOpen(true)}>
                 {!editOpen ? (
@@ -86,11 +89,35 @@ const SettingModal: React.FC<SettingModalProps> = ({
               </div>
             </div>
 
-            <div className="mt-10 flex flex-col gap-y-6">
+            {!editOpen ? (
+              <div className="mt-4">
+                <h2 className=" text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
+                  Selected Theme
+                </h2>
+                <dd className="mt-1 text-sm text-gray-500 dark:text-gray-300 sm:col-span-2">
+                  {resolvedTheme?.toUpperCase()}
+                </dd>
+              </div>
+            ) : (
+              <div className="mt-4 ">
+                <h2 className=" text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
+                  Set Theme
+                </h2>
+                <div className="w-fit h-fit">
+                  <ThemeSwitch />
+                </div>
+              </div>
+            )}
+            <div className="mt-2 flex flex-col gap-y-6">
               <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">
+                <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
+                  Personal Information
+                </h2>
+
+                <label className="text-sm font-medium text-gray-900 dark:text-gray-100 sm:w-40 sm:flex-shrink-0">
                   Profile Picture
                 </label>
+
                 <div className="mt-2 flex flex-col items-center justify-center gap-x-3">
                   <Image
                     width="150"
@@ -105,23 +132,20 @@ const SettingModal: React.FC<SettingModalProps> = ({
                   />
                   {editOpen && (
                     <CldUploadButton
-                    options={{ maxFiles: 1 }}
-                    onUpload={handleUpload}
-                    uploadPreset="socioweb"
-                  >
-                    <Button disabled={isLoading} secondary type="button">
-                      <span className="flex items-center">
-                        Change <FiEdit className="ml-1" size={16} />
-                      </span>
-                    </Button>
-                  </CldUploadButton>
+                      options={{ maxFiles: 1 }}
+                      onUpload={handleUpload}
+                      uploadPreset="socioweb"
+                    >
+                      <Button disabled={isLoading} secondary type="button">
+                        <span className="flex items-center">
+                          Change <FiEdit className="ml-1" size={16} />
+                        </span>
+                      </Button>
+                    </CldUploadButton>
                   )}
                 </div>
               </div>
               <div className="flex flex-col gap-5">
-                <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-                  Personal Information
-                </h2>
                 {editOpen ? (
                   <div className="flex flex-col gap-3">
                     <div>
@@ -141,8 +165,16 @@ const SettingModal: React.FC<SettingModalProps> = ({
                       register={register}
                     />
                     <div className="mt-6 flex items-center justify-end gap-x-6">
-                        <Button disabled={isLoading} secondary onClick={() => setEditOpen(false)}>Cancel</Button>
-                        <Button disabled={isLoading} type="submit">Save</Button>
+                      <Button
+                        disabled={isLoading}
+                        secondary
+                        onClick={() => setEditOpen(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button disabled={isLoading} type="submit">
+                        Save
+                      </Button>
                     </div>
                   </div>
                 ) : (

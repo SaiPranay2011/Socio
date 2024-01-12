@@ -35,7 +35,7 @@ const ConversationForm = () => {
     })
   }
   return (
-    <div className="py-4 px-4 bg-white dark:bg-gray-800  border-none flex items-center gap-2 lg:gap-4 w-full">
+    <div className="py-4 px-4 fixed bottom-0 z-10 bg-white dark:bg-gray-800  border-none flex items-center gap-2 lg:gap-4 w-full">
       <CldUploadButton options={{maxFiles:1}} onUpload={handleUpload} uploadPreset="socioweb">
       <HiPhoto size={30} className="cursor-pointe"/>
       </CldUploadButton>

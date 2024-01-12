@@ -7,6 +7,7 @@ import MessageBox from "./messageBox";
 import axios from "axios";
 import { pusherClient } from "@/hooks/pusher";
 import { find } from "lodash";
+import ConversationForm from "./form";
 
 interface ConversationBodyProps {
   initialMessages: FullMessageType[] | null;
@@ -42,8 +43,8 @@ const ConversationBody: React.FC<ConversationBodyProps> = ({
     };
 
     const updateMessageHandler = (newMessage: FullMessageType) => {
-      setMessages((current:any) =>
-        current.map((currentMessage:any) => {
+      setMessages((current: any) =>
+        current.map((currentMessage: any) => {
           if (currentMessage.id === newMessage.id) {
             return newMessage;
           }
@@ -62,17 +63,19 @@ const ConversationBody: React.FC<ConversationBodyProps> = ({
     };
   }, [conversationId]);
   return (
-    <div className="flex-1 overflow-y-auto no-scrollbar">
-      {messages != null &&
-        messages.map((message, i) => (
-          <MessageBox
-            isLast={i == messages.length - 1}
-            key={message.id}
-            data={message}
-          />
-        ))}
-      <div ref={bottomRef} className="pt-24" />
-    </div>
+    <>
+      <div className="flex-1 pt-24 overflow-y-auto no-scrollbar">
+        {messages != null &&
+          messages.map((message, i) => (
+            <MessageBox
+              isLast={i == messages.length - 1}
+              key={message.id}
+              data={message}
+            />
+          ))}
+        <div ref={bottomRef} className="pt-24" />
+      </div>
+    </>
   );
 };
 

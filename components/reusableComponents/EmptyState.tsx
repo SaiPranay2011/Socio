@@ -1,5 +1,3 @@
-import ThemeSwitch from "../mainComponents/themeSwitcher";
-
 const EmptyState = () => {
   return (
     <div
@@ -21,7 +19,6 @@ const EmptyState = () => {
         <h3 className="mt-2 text-2xl font-semibold ">
           Select a chat or start a conversation
         </h3>
-        <ThemeSwitch/>
       </div>
     </div>
   );

@@ -56,10 +56,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                  sm:p-6
                 "
               >
-                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block z-10">
+                <div className="absolute right-0 top-0 pr-4 pt-4 block z-10">
                   <button
                     type="button"
-                    className="rounded-md bg-white dark:bg-gray-700 text-gray-400 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-100  focus:outline-none focus:ring-2 focus:ring-slate-500 dark:focus:ring-slate-800 focus:ring-offset-2"
+                    className="rounded-md bg-white dark:bg-gray-700 text-gray-400 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-100  focus:outline-none  focus:ring-slate-500 dark:focus:ring-slate-800 focus:ring-offset-2"
                     onClick={onClose}
                   >
                     <span className="sr-only">Close</span>

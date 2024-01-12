@@ -34,6 +34,7 @@ const MobileItem: React.FC<MobileItemProps> = ({
         font-semibold 
         w-full 
         justify-center 
+        focus:outline-none
         p-4 
         text-gray-500
         dark:text-gray-200

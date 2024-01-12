@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ThemeSwitch from "../themeSwitcher";
 
 interface GroupChatModalProps {
   isOpen?: boolean;
@@ -73,7 +72,6 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
             <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
               Create a chat with more than 2 people.
             </p>
-            <ThemeSwitch />
             <div className="mt-10 flex flex-col gap-y-8">
               <Input
                 disabled={isLoading}
