@@ -41,7 +41,7 @@ const ConversationForm = () => {
       </CldUploadButton>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center lg:gap-2 w-full "
+        className="flex items-center lg:gap-2 w-full"
       >
         <MessageInput
           id="message"
