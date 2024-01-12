@@ -29,14 +29,13 @@ const SettingModal: React.FC<SettingModalProps> = ({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const { resolvedTheme } = useTheme();
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<FieldValues>({
     defaultValues: {
       name: currentUser?.name,
@@ -62,58 +61,49 @@ const SettingModal: React.FC<SettingModalProps> = ({
         onClose();
       })
       .catch(() => toast.error("Something went wrong"))
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        setEditOpen(false);
+        window.location.reload();
+      });
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-              Settings
+      <div className="space-y-12">
+        <div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
+            Settings
+          </h2>
+          <div className="mt-4 flex flex-col  mb-6">
+            <h2 className=" text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
+              Theme
             </h2>
-            <div className="flex justify-between items-center">
-              <p className=" text-sm leading-6 text-gray-600 dark:text-gray-300">
-                Click on edit to change theme and personal information
-              </p>
-              <div onClick={() => setEditOpen(true)}>
-                {!editOpen ? (
-                  <Button disabled={isLoading} secondary type="button">
-                    <span className="flex items-center">
-                      Edit <FiEdit className="ml-1" size={16} />
-                    </span>
-                  </Button>
-                ) : (
-                  <></>
-                )}
-              </div>
+            <div className="w-fit h-fit mt-1 text-sm text-gray-900 dark:text-gray-300 sm:col-span-2">
+              <ThemeSwitch />
             </div>
-
-            {!editOpen ? (
-              <div className="mt-4">
-                <h2 className=" text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-                  Selected Theme
-                </h2>
-                <dd className="mt-1 text-sm text-gray-500 dark:text-gray-300 sm:col-span-2">
-                  {resolvedTheme?.toUpperCase()}
-                </dd>
-              </div>
-            ) : (
-              <div className="mt-4 ">
-                <h2 className=" text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-                  Set Theme
-                </h2>
-                <div className="w-fit h-fit">
-                  <ThemeSwitch />
-                </div>
-              </div>
-            )}
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-2 flex flex-col gap-y-6">
               <div>
                 <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
                   Personal Information
                 </h2>
-
+                <div className="flex justify-between items-center">
+                  <p className=" text-sm leading-6 text-gray-600 dark:text-gray-300">
+                    Click on edit to change personal information
+                  </p>
+                  <div onClick={() => setEditOpen(true)}>
+                    {!editOpen ? (
+                      <Button disabled={isLoading} secondary type="button">
+                        <span className="flex items-center">
+                          Edit <FiEdit className="ml-1" size={16} />
+                        </span>
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </div>
                 <label className="text-sm font-medium text-gray-900 dark:text-gray-100 sm:w-40 sm:flex-shrink-0">
                   Profile Picture
                 </label>
@@ -172,7 +162,10 @@ const SettingModal: React.FC<SettingModalProps> = ({
                       >
                         Cancel
                       </Button>
-                      <Button disabled={isLoading} type="submit">
+                      <Button
+                        disabled={isLoading || !isDirty || !isValid}
+                        type="submit"
+                      >
                         Save
                       </Button>
                     </div>
@@ -199,9 +192,9 @@ const SettingModal: React.FC<SettingModalProps> = ({
                 )}
               </div>
             </div>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
     </Modal>
   );
 };
