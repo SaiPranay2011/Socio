@@ -20,6 +20,6 @@ export default function ThemeSwitch(){
         return <button onClick={() => setTheme('light')}><div className="flex flex-row items-center"> <p className="mr-2">Light</p> <MdLightMode size={20}/></div></button>
     }
     if (resolvedTheme === "light"){
-        return <button onClick={() => setTheme('dark')}><div className="flex flex-row items-center"> <p className="mr-2">Dark</p><MdOutlineDarkMode/></div></button>
+        return <button onClick={() => setTheme('dark')}><div className="flex flex-row items-center"> <p className="mr-2">Dark</p><MdOutlineDarkMode size={20}/></div></button>
     }
 }
