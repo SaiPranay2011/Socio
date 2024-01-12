@@ -5,7 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "@/hooks/prismadb";
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
       CredentialsProvider({
@@ -49,4 +49,3 @@ const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   }
 
-  export default authOptions
