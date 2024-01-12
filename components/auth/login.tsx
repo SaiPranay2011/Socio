@@ -8,7 +8,6 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import ThemeSwitch from "../mainComponents/themeSwitcher";
 import Button from "../reusableComponents/button";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -76,7 +75,6 @@ const LoginForm = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center flex-grow w-20 h-full ">
-      <ThemeSwitch />
       {/* This div will be the main picture or clone. */}
       {/* <div></div> */}
       <div className="">SOCIO</div>
