@@ -36,7 +36,7 @@ const ConversationHeader: React.FC<HeaderProps> = ({ conversation }) => {
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       />
-      <div className="bg-white fixed z-10 dark:bg-gray-800 w-full flex border-b-[1px] dark:border-b-gray-700 sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
+      <div className="bg-white max-sm:fixed max-sm:z-10 dark:bg-gray-800 w-full flex border-b-[1px] dark:border-b-gray-700 sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
         <div className="flex gap-3 items-center">
           <Link
             className="lg:hidden block text-neutral-800 dark:text-gray-50 hover:text-neutral-900 dark:hover:text-gray-300 transition cursor-pointer"
