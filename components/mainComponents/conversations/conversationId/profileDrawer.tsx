@@ -11,6 +11,7 @@ import { Fragment, useMemo, useState } from "react";
 import { IoClose, IoTrash } from "react-icons/io5";
 import AvatarGroup from "@/components/reusableComponents/avatarGroup";
 import useActiveList from "@/hooks/useActiveList";
+import Image from "next/image";
 
 interface ProfileDrawerProps {
   data: Conversation & {
@@ -38,15 +39,15 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     return data.name || otherUser.name;
   }, [data.name, otherUser.name]);
   const createdDate = useMemo(() => {
-    return format(new Date(data.createdAt),"PP")
-  },[data.createdAt])
+    return format(new Date(data.createdAt), "PP");
+  }, [data.createdAt]);
   const statusText = useMemo(() => {
     if (data.isGroup) {
       return `${data.users.length} members`;
     }
 
-    return isActive ? 'Active' : 'Offline'
-  }, [data,isActive]);
+    return isActive ? "Active" : "Offline";
+  }, [data, isActive]);
   return (
     <>
       <ConfirmModal
@@ -98,9 +99,20 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
                             {data.isGroup ? (
-                              <AvatarGroup users={data.users} />
+                              <AvatarGroup users={data.users} ProfileDrawer={true}/>
                             ) : (
-                              <Avatar user={otherUser} />
+                              <>
+                                <Image
+                                  width="150"
+                                  height="150"
+                                  className="rounded-3xl"
+                                  src={
+                                    otherUser?.image ||
+                                    "/assets/images/placeholder.jpg"
+                                  }
+                                  alt="Avatar"
+                                />
+                              </>
                             )}
                           </div>
                           <div>{title}</div>
@@ -145,11 +157,9 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                       sm:col-span-2
                                     "
                                   >
-                                    {data.users
-                                      .map((user) => (
-                                        <p>{user.email}</p>
-                                      ))
-                                      }
+                                    {data.users.map((user) => (
+                                      <p>{user.email}</p>
+                                    ))}
                                   </dd>
                                 </div>
                               )}
